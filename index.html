@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>許仙資本 股票投資月結算報告</title>
+<style>
+:root{
+  --fg:#1f1e1d;--muted:#706d66;--bg:#faf9f5;--panel:#ffffff;--line:#e8e5da;--soft:#f3f1ea;
+  --accent:#34507a;--up:#c8402f;--down:#2f7d57;--grid:#ece9df;--ref:#a8a498;
+  --shadow:0 1px 2px rgba(31,30,29,.04),0 4px 14px rgba(31,30,29,.04);
+  --serif:"Iowan Old Style","Palatino Linotype","Noto Serif TC","Noto Serif CJK TC","Songti TC","PMingLiU",Georgia,serif;
+  --sans:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+  --navy:var(--fg)
+}
+@media (prefers-color-scheme:dark){
+  :root{--fg:#f1efe8;--muted:#a09d92;--bg:#1d1c1a;--panel:#282725;--line:#3a3834;--soft:#322f2c;
+    --accent:#8fb0e6;--up:#ff7d6b;--down:#62c28f;--grid:#34322e;--ref:#6d6a61;--shadow:0 1px 2px rgba(0,0,0,.3)}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+.wrap{max-width:1040px;margin:0 auto;padding:36px 20px 56px}
+header.top{margin-bottom:22px}
+h1{margin:0;font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.2;letter-spacing:.01em;color:var(--fg)}
+h1 .brand{font-weight:600;margin-right:.35em}
+h1 .rep{color:var(--muted);font-size:.62em;letter-spacing:.04em;white-space:nowrap}
+.take{margin:10px 0 2px;color:var(--fg);font-size:16px}
+.legend{margin:0;font-size:12px;color:var(--muted)}
+.tabs{display:inline-flex;gap:2px;padding:4px;border-radius:12px;background:var(--soft);border:1px solid var(--line);margin:4px 0 20px;max-width:100%;overflow-x:auto}
+.tab{background:none;border:0;padding:8px 18px;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;border-radius:9px;white-space:nowrap;transition:background .2s,color .2s}
+.tab:hover{color:var(--fg)}
+.tab[aria-selected=true]{background:var(--panel);color:var(--fg);font-weight:600;box-shadow:var(--shadow)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:14px;box-shadow:var(--shadow);break-inside:avoid}
+.grid .card{margin-bottom:0}
+.label{font-size:12px;color:var(--muted);letter-spacing:.03em}
+.big{font-family:var(--serif);font-weight:400;font-size:36px;line-height:1.15;font-variant-numeric:tabular-nums;margin:6px 0 4px;color:var(--fg)}
+.sub{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.h{font-family:var(--serif);font-size:19px;font-weight:600;margin:0 0 3px;color:var(--fg)}
+.note{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:11px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.03em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--soft)}
+.up{color:var(--up)}.down{color:var(--down)}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto}
+.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.14);padding:6px 11px;font-size:12px;white-space:nowrap;display:none;color:var(--fg)}
+.tip span{display:block}
+.trio{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.trio .big{font-size:32px}
+ul.list{margin:0;padding-left:1.1em;font-size:12.5px;color:var(--muted)}
+ul.list li{margin:3px 0}
+.ptitle{display:none}
+.foot{margin-top:18px;font-size:11.5px;color:var(--muted);text-align:center}
+.facts{display:grid;gap:16px 14px;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));margin:0 0 18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.v{font-family:var(--serif);font-size:20px;font-weight:400;font-variant-numeric:tabular-nums}
+.nb{margin:0 0 14px}
+.nb .txt{white-space:pre-wrap;margin:3px 0 0}
+.nb .ph{color:var(--muted);font-style:italic;margin:3px 0 0;opacity:.8}
+.sh{font-family:var(--serif);font-size:19px;font-weight:600;margin:24px 0 12px}
+.cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.cards .card{margin-bottom:0}
+.sc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.sc-name{font-family:var(--serif);font-size:20px;font-weight:600}
+.sc-name small{font-family:var(--sans);color:var(--muted);font-weight:400;font-size:12px;margin-left:6px}
+.pill{font-size:12px;padding:2px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--soft)}
+.pill.held{color:var(--accent);border-color:var(--accent);background:transparent}
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));margin:0 0 10px}
+.stats .v{font-family:var(--sans);font-size:15px;font-weight:500}
+.pl{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin:10px 0 14px;padding:12px 14px;border-radius:12px;background:var(--soft)}
+.pl .v{font-size:23px}
+.empty{color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){
+  .panel:not([hidden]) .card,.panel:not([hidden]) .cards .card{animation:rise .45s cubic-bezier(.2,.7,.2,1) both}
+  .panel:not([hidden]) .card:nth-child(2){animation-delay:.04s}
+  .panel:not([hidden]) .card:nth-child(3){animation-delay:.08s}
+  .panel:not([hidden]) .card:nth-child(4){animation-delay:.12s}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+@media (max-width:560px){
+  .wrap{padding:24px 14px 40px}
+  h1{font-size:27px}
+  .card{padding:18px}
+  .big{font-size:30px}
+}
+@media print{
+  :root{--fg:#1f1e1d;--muted:#706d66;--bg:#fff;--panel:#fff;--line:#e2dfd4;--soft:#f6f4ee;--accent:#34507a;--up:#c8402f;--down:#2f7d57;--grid:#ece9df;--ref:#a8a498;--shadow:none}
+  body{background:#fff}
+  .tabs{display:none}
+  .panel{display:block!important}
+  .ptitle{display:block;font-family:var(--serif);font-size:20px;font-weight:600;margin:12px 0 10px}
+  .wrap{padding:0}
+  .card,.cards .card{animation:none!important;box-shadow:none}
+  .grid{grid-template-columns:repeat(4,1fr);gap:10px}
+  .card{padding:14px 16px;margin-bottom:10px}
+  .big{font-size:26px}.trio .big{font-size:24px}
+  .h{font-size:16px}.note{margin-bottom:8px}
+  th,td{padding:7px 8px;font-size:12.5px}
+  .cards{grid-template-columns:repeat(2,1fr);gap:10px}
+  .pl .v{font-size:19px}.v{font-size:17px}
+  .facts{grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;padding-bottom:12px}
+  .nb{margin-bottom:8px}
+  .sh{margin:14px 0 8px;font-size:16px}
+  .cards .card{break-inside:avoid}
+  .cards{zoom:.8;gap:8px}
+  #panel-view>.sh,#panel-view .sh{break-after:avoid}
+  #panel-view{break-before:page}
+  #panel-view>.card{break-inside:auto;display:block}
+  .ptitle{break-after:avoid}
+  #panel-hist{break-before:page}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><h1><span class="brand">許仙資本</span><span class="rep">股票投資月結算報告</span></h1>
+  <p class="take" id="take"></p>
+  <p class="legend">紅色 = 獲利,綠色 = 虧損(台股慣例)</p></header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" data-tab="now" aria-selected="true">本期報告</button>
+    <button class="tab" data-tab="view" aria-selected="false">行情分析</button>
+    <button class="tab" data-tab="hist" aria-selected="false">歷月變化</button>
+  </div>
+
+  <section class="panel" id="panel-now">
+    <div class="ptitle">本期報告</div>
+    <div class="grid">
+      <div class="card"><div class="label">每單位淨值</div><div class="big" id="k-nav"></div><div class="sub">較期初 <span id="k-ret"></span></div></div>
+      <div class="card"><div class="label">帳戶淨值</div><div class="big" id="k-acct"></div><div class="sub">總單位數 <span id="k-units"></span></div></div>
+      <div class="card"><div class="label">本期損益</div><div class="big" id="k-pl"></div><div class="sub"><span id="k-plp"></span></div></div>
+      <div class="card"><div class="label">持股水位</div><div class="big" id="k-hw"></div><div class="sub">現金 <span id="k-cw"></span></div></div>
+    </div>
+    <div class="card">
+      <p class="h">損益拆解</p>
+      <p class="note">報酬率以本金為基準;已扣除預估賣出成本。</p>
+      <div class="trio">
+        <div><div class="label">已實現損益</div><div class="big" id="k-real"></div></div>
+        <div><div class="label">未實現損益</div><div class="big" id="k-unreal"></div></div>
+        <div><div class="label">累積年損益</div><div class="big" id="k-ytd"></div><div class="sub"><span id="k-ytdp"></span></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="h">持股明細與水位</p>
+      <p class="note">單一個股上限 40%;現金為推算值,待與實際帳戶餘額核對。</p>
+      <div class="scroll"><table id="t-hold"><thead></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card">
+      <p class="h">本期已實現明細</p>
+      <div class="scroll"><table id="t-real"><thead></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card">
+      <p class="h">個人股權價值</p>
+      <div class="scroll"><table id="t-inv"><thead></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card">
+      <p class="h">試算說明</p>
+      <ul class="list">
+        <li>手續費 0.1425% × 2.3 折;證交稅 0.3%(賣出時)。</li>
+        <li>市價採結算日前最後交易日的收盤價。</li>
+        <li>淨值已扣預估賣出成本,未扣管理費(管理費每年結算一次)。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-view" hidden>
+    <div class="ptitle">行情分析</div>
+    <div class="card">
+      <p class="h">大盤分析</p>
+      <p class="note">期間:9/1 起至 10/10 前最後收盤日(10/8)。漲跌以 8/31 收盤為基準;數據為已公布收盤價,分析文字由操盤手填寫。</p>
+      <div class="facts" id="facts"></div>
+      <div class="nb" id="vs"></div>
+      <p class="h" style="margin-top:16px">大盤走勢</p>
+      <p class="note">加權指數逐日收盤。9/25、9/28 休市;9/1、9/2、9/7、9/8 逐日收盤價未取得,圖中以相鄰有資料的日期連線。</p>
+      <div class="chart" id="c-idx"><div class="tip"></div></div>
+      <p class="h" style="margin-top:16px">操盤手分析</p>
+      <p class="note">以下由操盤手自行填寫。</p>
+      <div id="mkt-notes"></div>
+    </div>
+    <p class="sh">持股與交易狀況</p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section class="panel" id="panel-hist" hidden>
+    <div class="ptitle">歷月變化</div>
+    <div class="card"><p class="h">每月損益</p><p class="note">每期結算的損益金額(元);每月新增一根。</p><div class="chart" id="c-pl"><div class="tip"></div></div></div>
+    <div class="card"><p class="h">每單位淨值走勢</p><p class="note">虛線為期初淨值。</p><div class="chart" id="c-nav"><div class="tip"></div></div></div>
+    <div class="card"><p class="h">每月損益與年累積</p><p class="note">最新一期在最上面。</p><div class="scroll"><table id="t-month"><thead></thead><tbody></tbody></table></div></div>
+    <div class="card"><p class="h">個人股權歷期變化</p><div class="scroll"><table id="t-invh"><thead></thead><tbody></tbody></table></div></div>
+  </section>
+  <p class="foot" id="foot"></p>
+</div>
+
+<script>
+const DATA = {"monthly": [{"rowid": "2026-10", "period": "2026-10", "range": "9/1–10/10", "nav_start": 10, "nav_end": 10.4721, "ret_pct": 4.72, "month_pl": 37765, "month_pl_pct": 4.72, "realized_pl": -19984, "unrealized_pl": 57749, "ytd_pl": 37765, "ytd_pct": 4.72, "acct": 837765, "units": 80000, "hold_weight": 57.07, "cash_weight": 42.93}], "holdings": [{"rowid": "2026-10_8045", "period": "2026-10", "code": "8045", "name": "達運光電", "shares": 3000, "avg": 54.94, "price": 57.1, "value": 171300, "pl": 5856, "pl_pct": 3.55, "weight": 20.41}, {"rowid": "2026-10_8039", "period": "2026-10", "code": "8039", "name": "台虹", "shares": 500, "avg": 275, "price": 305.5, "value": 152750, "pl": 14697, "pl_pct": 10.69, "weight": 18.2}, {"rowid": "2026-10_1303", "period": "2026-10", "code": "1303", "name": "南亞", "shares": 500, "avg": 234.5, "price": 310, "value": 155000, "pl": 37196, "pl_pct": 31.71, "weight": 18.47}, {"rowid": "2026-10_CASH", "period": "2026-10", "code": "CASH", "name": "現金(推算)", "shares": null, "avg": null, "price": null, "value": 360309, "pl": null, "pl_pct": null, "weight": 42.93}], "realized": [{"rowid": "2026-10_3595", "period": "2026-10", "code": "3595", "name": "山太士", "shares": 100, "buy_px": 1500, "sell_px": 1305, "buy": 150000, "sell": 130500, "diff": -19500, "fees": -484, "net": -19984, "pct": -13.32}], "investors": [{"rowid": "2026-10_p1", "period": "2026-10", "name": "胡春惠", "invest": 550000, "units": 55000, "share_pct": 68.75, "value": 575963, "pl": 25963, "pl_pct": 4.72}, {"rowid": "2026-10_p2", "period": "2026-10", "name": "黃新甯", "invest": 100000, "units": 10000, "share_pct": 12.5, "value": 104721, "pl": 4721, "pl_pct": 4.72}, {"rowid": "2026-10_p3", "period": "2026-10", "name": "黃新畬", "invest": 150000, "units": 15000, "share_pct": 18.75, "value": 157081, "pl": 7081, "pl_pct": 4.72}], "market": [{"rowid": "2026-10_mkt", "period": "2026-10", "start_date": "8/31", "start_close": 46128.47, "end_date": "10/8", "end_close": 49313.44, "change_pts": 3184.97, "change_pct": 6.9, "high_close": 49822.55, "high_date": "10/6", "low_close": 45511.49, "low_date": "9/15", "sep_close": 47940.13, "sep_pts": 1811.66, "sep_pct": 3.93, "oct_pts": 1373.31, "oct_pct": 2.86}], "notes": [{"rowid": "2026-10_n_market", "period": "2026-10", "scope": "market", "trend": "台股於十月初一舉逼近5萬點心理關卡。9月至10月初整體走勢震盪劇烈,指數在高低點之間大幅擺盪。", "factors": "聯準會升息預期突然升溫,美債殖利率飆升並突破5%大關。多項警訊同時浮現,市場情緒卻未降溫,反以「利空出盡」的視角持續投入資金。", "outlook": "", "flows": "", "sectors": "資金明顯集中在半導體(以台積電為核心)、通信網路(高速交換器、光通訊等AI資料中心概念)與金融保險等族群;塑膠原料(台塑四寶)與貨櫃航運也有階段性轉強。", "risks": "操盤手認為,多項警訊齊發、指數卻仍強勢上攻,既是風險訊號,也是行情頭部出現的常見特徵,後續須提高警覺。", "strategy": "我們不過度猜測市場方向,而以約60%的持股水位保守看待,保留現金彈性以因應後續變化。"}, {"rowid": "2026-10_n_8045", "period": "2026-10", "scope": "8045", "trend": "", "factors": "", "outlook": "", "ops": "停損:股價跌破50元直接停損。停利:不預設停利點,續抱至波段高點,70元以上再分批減碼。", "view": "看好無人機題材納入後所創造的營收貢獻,近期多項題材陸續發酵,預期明年營收將大幅轉強。"}, {"rowid": "2026-10_n_8039", "period": "2026-10", "scope": "8039", "trend": "", "factors": "", "outlook": "", "ops": "目前價位不算便宜,不是適合加碼的位置,手上部位續抱;待後續利多消息發酵完畢後,再考慮出清。", "view": "看好PTFE材料未來取代玻纖布:低階應用目前已通過驗證,高階應用仍在驗證中。不過目前台虹的獲利表現尚未跟上股價所反映的價值。"}, {"rowid": "2026-10_n_1303", "period": "2026-10", "scope": "1303", "trend": "", "factors": "", "outlook": "", "ops": "與台虹相比,雖然兩者短期漲幅都已不小,但南亞的產品線更為豐富,因此認為股價仍有上漲潛力。", "view": "看好近期CCL(銅箔基板)供應鏈。高階銅箔基板的供應,目前只有南亞能做到玻纖布、高階銅箔、樹脂一條龍整合出貨;近期中高階CCL出貨量大幅提升,搭上近期PCB的高度熱度。操盤手認為南亞在產業面向與產品實力上相當強勢。"}, {"rowid": "2026-10_n_3595", "period": "2026-10", "scope": "3595", "trend": "", "factors": "", "outlook": "", "ops": "原本看好股價將在上櫃前一個月左右出現突破;但此次股價跌破起漲價,因此先行停損出場。後續若有機會,仍會再買回。", "view": "看好FOPLP(扇出型面板級封裝)題材,為未來晶片翹曲問題的方案解決者。目前爆量的營收尚未開出,上櫃時程也仍在安排中,預期未來必有作價行情,長期十分看好。"}], "index_daily": [{"rowid": "2026-10_d00", "period": "2026-10", "seq": 0, "date": "8/31", "close": 46128.47}, {"rowid": "2026-10_d01", "period": "2026-10", "seq": 1, "date": "9/3", "close": 45857.66}, {"rowid": "2026-10_d02", "period": "2026-10", "seq": 2, "date": "9/4", "close": 46551.13}, {"rowid": "2026-10_d03", "period": "2026-10", "seq": 3, "date": "9/9", "close": 47183.36}, {"rowid": "2026-10_d04", "period": "2026-10", "seq": 4, "date": "9/10", "close": 46940.49}, {"rowid": "2026-10_d05", "period": "2026-10", "seq": 5, "date": "9/11", "close": 46184.85}, {"rowid": "2026-10_d06", "period": "2026-10", "seq": 6, "date": "9/14", "close": 45862.52}, {"rowid": "2026-10_d07", "period": "2026-10", "seq": 7, "date": "9/15", "close": 45511.49}, {"rowid": "2026-10_d08", "period": "2026-10", "seq": 8, "date": "9/16", "close": 45848.9}, {"rowid": "2026-10_d09", "period": "2026-10", "seq": 9, "date": "9/17", "close": 46288.0}, {"rowid": "2026-10_d10", "period": "2026-10", "seq": 10, "date": "9/18", "close": 47180.75}, {"rowid": "2026-10_d11", "period": "2026-10", "seq": 11, "date": "9/21", "close": 47718.84}, {"rowid": "2026-10_d12", "period": "2026-10", "seq": 12, "date": "9/22", "close": 47800.17}, {"rowid": "2026-10_d13", "period": "2026-10", "seq": 13, "date": "9/23", "close": 48157.29}, {"rowid": "2026-10_d14", "period": "2026-10", "seq": 14, "date": "9/24", "close": 48024.6}, {"rowid": "2026-10_d15", "period": "2026-10", "seq": 15, "date": "9/29", "close": 47631.96}, {"rowid": "2026-10_d16", "period": "2026-10", "seq": 16, "date": "9/30", "close": 47940.13}, {"rowid": "2026-10_d17", "period": "2026-10", "seq": 17, "date": "10/1", "close": 48353.49}, {"rowid": "2026-10_d18", "period": "2026-10", "seq": 18, "date": "10/2", "close": 48475.74}, {"rowid": "2026-10_d19", "period": "2026-10", "seq": 19, "date": "10/5", "close": 49712.04}, {"rowid": "2026-10_d20", "period": "2026-10", "seq": 20, "date": "10/6", "close": 49822.55}, {"rowid": "2026-10_d21", "period": "2026-10", "seq": 21, "date": "10/7", "close": 49806.37}, {"rowid": "2026-10_d22", "period": "2026-10", "seq": 22, "date": "10/8", "close": 49313.44}]};
+const fmt = {
+  int: v => Math.round(v).toLocaleString('en-US'),
+  sint: v => (v > 0 ? '+' : v < 0 ? '-' : '') + Math.abs(Math.round(v)).toLocaleString('en-US'),
+  nav: v => v.toFixed(4),
+  px: v => v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+  pct: v => v.toFixed(2) + '%',
+  spct: v => (v > 0 ? '+' : v < 0 ? '-' : '') + Math.abs(v).toFixed(2) + '%',
+  w: v => v.toFixed(1) + '%',
+  idx: v => v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+  sdec: v => (v > 0 ? '+' : v < 0 ? '-' : '') + Math.abs(v).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+  txt: v => String(v)
+};
+const $ = id => document.getElementById(id);
+function put(el, v, f) {
+  el.classList.remove('up', 'down');
+  if (v === null || v === undefined || v === '') { el.textContent = ''; return; }
+  el.textContent = (fmt[f] || fmt.txt)(v);
+  if (f === 'sint' || f === 'spct' || f === 'sdec') { if (v > 0) el.classList.add('up'); else if (v < 0) el.classList.add('down'); }
+}
+const asc = (a, b) => (a.period < b.period ? -1 : a.period > b.period ? 1 : 0);
+const months = [...DATA.monthly].sort(asc);
+const L = months[months.length - 1];
+const cur = rows => rows.filter(r => r.period === L.period);
+
+function table(id, cols, rows) {
+  const t = $(id);
+  const thead = t.tHead, tbody = t.tBodies[0];
+  const tr = document.createElement('tr');
+  cols.forEach(c => { const th = document.createElement('th'); th.textContent = c[1]; tr.append(th); });
+  thead.replaceChildren(tr);
+  tbody.replaceChildren(...rows.map(r => {
+    const row = document.createElement('tr');
+    cols.forEach(c => { const td = document.createElement('td'); put(td, r[c[0]], c[2] || 'txt'); row.append(td); });
+    return row;
+  }));
+}
+
+function fillStatic() {
+  $('take').textContent = L.range + ' 結算 · 每單位淨值 ' + fmt.nav(L.nav_end) + ',較期初 ' + fmt.spct(L.ret_pct);
+  [['k-nav', 'nav_end', 'nav'], ['k-ret', 'ret_pct', 'spct'], ['k-acct', 'acct', 'int'], ['k-units', 'units', 'int'], ['k-pl', 'month_pl', 'sint'], ['k-plp', 'month_pl_pct', 'spct'],
+   ['k-hw', 'hold_weight', 'w'], ['k-cw', 'cash_weight', 'w'], ['k-real', 'realized_pl', 'sint'], ['k-unreal', 'unrealized_pl', 'sint'], ['k-ytd', 'ytd_pl', 'sint'], ['k-ytdp', 'ytd_pct', 'spct']
+  ].forEach(([id, f, k]) => put($(id), L[f], k));
+  $('k-nav').classList.remove('up', 'down');
+  table('t-hold', [['name', '股票'], ['shares', '股數', 'int'], ['avg', '均價', 'px'], ['price', '市價', 'px'], ['value', '市值', 'int'], ['pl', '未實現損益', 'sint'], ['pl_pct', '損益%', 'spct'], ['weight', '占比', 'w']], cur(DATA.holdings));
+  table('t-real', [['name', '標的'], ['shares', '股數', 'int'], ['buy_px', '買進價', 'px'], ['sell_px', '賣出價', 'px'], ['buy', '買進金額', 'int'], ['sell', '賣出金額', 'int'], ['diff', '價差', 'sint'], ['fees', '手續費+稅', 'sint'], ['net', '淨損益', 'sint'], ['pct', '報酬率', 'spct']], cur(DATA.realized));
+  table('t-inv', [['name', '投資人'], ['invest', '投入金額', 'int'], ['units', '單位數', 'int'], ['share_pct', '持股比', 'pct'], ['value', '目前市值', 'int'], ['pl', '損益', 'sint'], ['pl_pct', '報酬率', 'spct']], cur(DATA.investors));
+  table('t-month', [['range', '期間'], ['month_pl', '月損益', 'sint'], ['month_pl_pct', '月報酬', 'spct'], ['ytd_pl', '年累積損益', 'sint'], ['ytd_pct', '年累積報酬', 'spct'], ['nav_end', '每單位淨值', 'nav'], ['acct', '帳戶淨值', 'int'], ['hold_weight', '持股水位', 'w']], [...months].reverse());
+  table('t-invh', [['period', '期別'], ['name', '投資人'], ['units', '單位數', 'int'], ['value', '市值', 'int'], ['pl', '損益', 'sint'], ['pl_pct', '報酬率', 'spct']], [...DATA.investors].sort((a, b) => -asc(a, b)));
+  $('foot').textContent = '資料更新至 ' + L.range + ' 結算 · 試算版,現金為推算值,待以實際帳戶餘額校正';
+}
+
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+function niceTicks(lo, hi, n) {
+  const span = hi - lo || 1, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map(s => s * mag).find(s => s >= raw);
+  const a = Math.floor(lo / step) * step, b = Math.ceil(hi / step) * step, out = [];
+  for (let v = a; v <= b + step / 2; v += step) out.push(Math.round(v / step) * step);
+  return out;
+}
+function textW(svg, s, size) {
+  const t = el('text', {'font-size': size}, s); svg.append(t);
+  const w = t.getComputedTextLength(); t.remove(); return w;
+}
+function showTip(box, tip, ev, lines) {
+  tip.replaceChildren(...lines.map(s => { const sp = document.createElement('span'); sp.textContent = s; return sp; }));
+  tip.style.display = 'block';
+  const r = box.getBoundingClientRect();
+  let left = ev.clientX - r.left + 12;
+  if (left + tip.offsetWidth > box.clientWidth - 4) left = box.clientWidth - tip.offsetWidth - 4;
+  tip.style.left = Math.max(4, left) + 'px';
+  tip.style.top = Math.max(4, ev.clientY - r.top - 36) + 'px';
+}
+function setup(boxId, label) {
+  const box = $(boxId);
+  box.querySelectorAll('svg').forEach(n => n.remove());
+  const W = box.clientWidth;
+  if (!W) return null;
+  const H = 230;
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': label});
+  box.prepend(svg);
+  return {box, svg, W, H, tip: box.querySelector('.tip')};
+}
+function drawBars() {
+  const s = setup('c-pl', '每月損益'); if (!s) return;
+  const {svg, W, H, box, tip} = s, m = {t: 14, r: 14, b: 28, l: 40};
+  const lo = Math.min(0, ...months.map(r => r.month_pl)), hi = Math.max(0, ...months.map(r => r.month_pl));
+  const ticks = niceTicks(lo, hi, 4), y0 = ticks[0], y1 = ticks[ticks.length - 1];
+  const y = v => m.t + (H - m.t - m.b) * (1 - (v - y0) / (y1 - y0));
+  m.l = Math.ceil(Math.max(...ticks.map(t => textW(svg, t.toLocaleString('en-US'), 11)))) + 14;
+  const band = (W - m.l - m.r) / months.length, bw = Math.min(band * 0.6, 40);
+  ticks.forEach(t => {
+    svg.append(el('line', {x1: m.l, x2: W - m.r, y1: y(t), y2: y(t), stroke: 'var(--grid)'}));
+    svg.append(el('text', {x: m.l - 6, y: y(t) + 4, 'text-anchor': 'end', 'font-size': 11, fill: 'var(--muted)'}, t.toLocaleString('en-US')));
+  });
+  svg.append(el('line', {x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), stroke: 'var(--ref)'}));
+  months.forEach((r, i) => {
+    const cx = m.l + band * i + band / 2;
+    const top = y(Math.max(0, r.month_pl)), h = Math.max(1, Math.abs(y(r.month_pl) - y(0)));
+    const bar = el('rect', {x: cx - bw / 2, y: top, width: bw, height: h, rx: 4, fill: r.month_pl >= 0 ? 'var(--up)' : 'var(--down)'});
+    bar.addEventListener('mousemove', ev => showTip(box, tip, ev, [r.range, '月損益 ' + fmt.sint(r.month_pl) + '(' + fmt.spct(r.month_pl_pct) + ')']));
+    bar.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+    svg.append(bar);
+    svg.append(el('text', {x: cx, y: H - 8, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--muted)'}, r.range));
+    svg.append(el('text', {x: cx, y: top - 5, 'text-anchor': 'middle', 'font-size': 11, fill: r.month_pl >= 0 ? 'var(--up)' : 'var(--down)'}, fmt.sint(r.month_pl)));
+  });
+}
+function drawNav() {
+  const s = setup('c-nav', '每單位淨值走勢'); if (!s) return;
+  const {svg, W, H, box, tip} = s, m = {t: 24, r: 24, b: 28, l: 40};
+  const pts = [{label: '期初', v: months[0].nav_start}, ...months.map(r => ({label: r.range, v: r.nav_end}))];
+  const vs = pts.map(p => p.v), mn = Math.min(...vs), mx = Math.max(...vs), pad = (mx - mn) * 0.25 || 0.1;
+  const ticks = niceTicks(mn - pad, mx + pad, 4), y0 = ticks[0], y1 = ticks[ticks.length - 1];
+  const y = v => m.t + (H - m.t - m.b) * (1 - (v - y0) / (y1 - y0));
+  m.l = Math.ceil(Math.max(...ticks.map(t => textW(svg, t.toFixed(2), 11)))) + 14;
+  const x = i => m.l + 24 + (W - m.l - m.r - 48) * (pts.length === 1 ? 0.5 : i / (pts.length - 1));
+  ticks.forEach(t => {
+    svg.append(el('line', {x1: m.l, x2: W - m.r, y1: y(t), y2: y(t), stroke: 'var(--grid)'}));
+    svg.append(el('text', {x: m.l - 6, y: y(t) + 4, 'text-anchor': 'end', 'font-size': 11, fill: 'var(--muted)'}, t.toFixed(2)));
+  });
+  svg.append(el('line', {x1: m.l, x2: W - m.r, y1: y(months[0].nav_start), y2: y(months[0].nav_start), stroke: 'var(--ref)', 'stroke-dasharray': '4 3'}));
+  const defs = el('defs', {}); const g = el('linearGradient', {id: 'ng', x1: 0, y1: 0, x2: 0, y2: 1});
+  [[0, .22], [.5, .08], [1, 0]].forEach(([o, a]) => g.append(el('stop', {offset: o, style: 'stop-color:var(--accent);stop-opacity:' + a})));
+  defs.append(g); svg.append(defs);
+  svg.append(el('path', {d: pts.map((p, i) => (i ? 'L' : 'M') + x(i) + ' ' + y(p.v)).join(' ') + ' L' + x(pts.length - 1) + ' ' + (H - m.b) + ' L' + x(0) + ' ' + (H - m.b) + ' Z', fill: 'url(#ng)'}));
+  svg.append(el('path', {d: pts.map((p, i) => (i ? 'L' : 'M') + x(i) + ' ' + y(p.v)).join(' '), fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}));
+  pts.forEach((p, i) => {
+    const c = el('circle', {cx: x(i), cy: y(p.v), r: 4, fill: 'var(--accent)'});
+    c.addEventListener('mousemove', ev => showTip(box, tip, ev, [p.label, '每單位淨值 ' + fmt.nav(p.v)]));
+    c.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+    svg.append(c);
+    svg.append(el('text', {x: x(i), y: H - 8, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--muted)'}, p.label));
+  });
+  const last = pts.length - 1;
+  svg.append(el('text', {x: x(last), y: y(pts[last].v) - 10, 'text-anchor': 'middle', 'font-size': 12, fill: 'var(--fg)'}, fmt.nav(pts[last].v)));
+}
+function drawIdx() {
+  const s = setup('c-idx', '加權指數逐日收盤'); if (!s) return;
+  const {svg, W, H, box, tip} = s, m = {t: 26, r: 18, b: 30, l: 40};
+  const rows = [...DATA.index_daily].filter(r => r.period === L.period).sort((a, b) => a.seq - b.seq);
+  if (!rows.length) return;
+  const vs = rows.map(r => r.close), mn = Math.min(...vs), mx = Math.max(...vs), pad = (mx - mn) * 0.12;
+  const ticks = niceTicks(mn - pad, mx + pad, 4), y0 = ticks[0], y1 = ticks[ticks.length - 1];
+  const y = v => m.t + (H - m.t - m.b) * (1 - (v - y0) / (y1 - y0));
+  m.l = Math.ceil(Math.max(...ticks.map(t => textW(svg, t.toLocaleString('en-US'), 11)))) + 14;
+  const x = i => m.l + 12 + (W - m.l - m.r - 24) * (rows.length === 1 ? 0.5 : i / (rows.length - 1));
+  ticks.forEach(t => {
+    svg.append(el('line', {x1: m.l, x2: W - m.r, y1: y(t), y2: y(t), stroke: 'var(--grid)'}));
+    svg.append(el('text', {x: m.l - 6, y: y(t) + 4, 'text-anchor': 'end', 'font-size': 11, fill: 'var(--muted)'}, t.toLocaleString('en-US')));
+  });
+  svg.append(el('line', {x1: m.l, x2: W - m.r, y1: y(rows[0].close), y2: y(rows[0].close), stroke: 'var(--ref)', 'stroke-dasharray': '4 3'}));
+  const defs = el('defs', {}), g = el('linearGradient', {id: 'ig', x1: 0, y1: 0, x2: 0, y2: 1});
+  [[0, .18], [.5, .06], [1, 0]].forEach(([o, a]) => g.append(el('stop', {offset: o, style: 'stop-color:var(--accent);stop-opacity:' + a})));
+  defs.append(g); svg.append(defs);
+  const line = rows.map((r, i) => (i ? 'L' : 'M') + x(i) + ' ' + y(r.close)).join(' ');
+  svg.append(el('path', {d: line + ' L' + x(rows.length - 1) + ' ' + (H - m.b) + ' L' + x(0) + ' ' + (H - m.b) + ' Z', fill: 'url(#ig)'}));
+  svg.append(el('path', {d: line, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}));
+  rows.forEach((r, i) => {
+    const c = el('circle', {cx: x(i), cy: y(r.close), r: 3, fill: 'var(--accent)'});
+    c.addEventListener('mousemove', ev => showTip(box, tip, ev, [r.date, '收盤 ' + fmt.idx(r.close)]));
+    c.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+    svg.append(c);
+  });
+  const hiI = vs.indexOf(mx), loI = vs.indexOf(mn), lastI = rows.length - 1;
+  const tag = (i, dy, anchor) => svg.append(el('text', {x: x(i), y: y(vs[i]) + dy, 'text-anchor': anchor, 'font-size': 11, fill: 'var(--fg)'}, Math.round(vs[i]).toLocaleString('en-US')));
+  tag(hiI, -9, 'middle'); tag(loI, 17, 'middle'); if (lastI !== hiI) tag(lastI, vs[lastI] < vs[hiI] ? 17 : -9, 'end');
+  const step = Math.ceil(rows.length / Math.max(2, Math.floor(W / 56)));
+  rows.forEach((r, i) => { if (i === lastI || (i % step === 0 && lastI - i >= step)) svg.append(el('text', {x: x(i), y: H - 8, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--muted)'}, r.date)); });
+}
+function drawCharts() { drawBars(); drawNav(); drawIdx(); }
+
+
+function mkEl(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
+function valEl(v, f, cls) { const e = mkEl('div', cls || 'v'); put(e, v, f); if (!e.textContent) { e.textContent = '—'; e.classList.add('empty'); } return e; }
+function labeled(label, node) { const w = mkEl('div'); w.append(mkEl('div', 'label', label), node); return w; }
+function noteBlock(label, text) {
+  const w = mkEl('div', 'nb');
+  w.append(mkEl('div', 'label', label));
+  if (text) w.append(mkEl('div', 'txt', text)); else w.append(mkEl('p', 'ph', '(待填寫)'));
+  return w;
+}
+function fillView() {
+  const mk = cur(DATA.market)[0] || {};
+  const withSub = (label, node, sub) => { const w = labeled(label, node); if (sub) w.append(mkEl('div', 'sub', sub)); return w; };
+  $('facts').replaceChildren(
+    labeled('期初指數(8/31 收盤)', valEl(mk.start_close, 'idx')), labeled('期末指數(10/8 收盤)', valEl(mk.end_close, 'idx')),
+    labeled('期間漲跌點數', valEl(mk.change_pts, 'sdec')), labeled('期間漲跌幅', valEl(mk.change_pct, 'spct')),
+    withSub('期間收盤最高', valEl(mk.high_close, 'idx'), mk.high_date), withSub('期間收盤最低', valEl(mk.low_close, 'idx'), mk.low_date),
+    withSub('9 月漲跌', valEl(mk.sep_pct, 'spct'), fmt.sdec(mk.sep_pts || 0) + ' 點'), withSub('10 月至今', valEl(mk.oct_pct, 'spct'), fmt.sdec(mk.oct_pts || 0) + ' 點'));
+  const gap = Math.round((L.ret_pct - mk.change_pct) * 100) / 100;
+  const vs = mkEl('div', 'v');
+  [[L.ret_pct, 'spct'], [' vs 大盤 ', null], [mk.change_pct, 'spct'], [' · 差距 ', null], [gap, 'spct'], [' 個百分點', null]].forEach(([v, f]) => {
+    if (f) { const sp = mkEl('span'); put(sp, v, f); vs.append(sp); } else vs.append(mkEl('span', 'sub', v));
+  });
+  $('vs').replaceChildren(mkEl('div', 'label', '許仙資本 vs 大盤(同期)'), vs);
+  const notes = cur(DATA.notes);
+  const nm = notes.find(n => n.scope === 'market') || {};
+  const hint = {
+    trend: ['期間走勢重點', '這段期間大盤分成哪幾個階段?高低點各在什麼時候、為什麼?'],
+    factors: ['影響因素', '國際與國內有哪些消息、政策或事件推動或壓抑了大盤?'],
+    sectors: ['強勢族群', '資金集中在哪些族群?'],
+    risks: ['風險與關注事項', '接下來要留意哪些風險或事件?(例如財報、利率、地緣政治、外資動向)'],
+    strategy: ['本基金操作策略', '基於以上看法,持股水位與配置下個月打算怎麼調整?']
+  };
+  $('mkt-notes').replaceChildren(...Object.entries(hint).map(([k, [label, q]], i) => { label = (i + 1) + '. ' + label;
+    const w = mkEl('div', 'nb'); w.append(mkEl('div', 'label', label));
+    if (nm[k]) w.append(mkEl('div', 'txt', nm[k])); else w.append(mkEl('p', 'ph', '(待填寫)' + q));
+    return w;
+  }));
+  const cards = [
+    ...cur(DATA.holdings).filter(r => r.code !== 'CASH').map(r => ({code: r.code, name: r.name, status: '持有中', shares: r.shares, cost: r.avg, last: r.price, value: r.value, weight: r.weight, unreal: r.pl, unreal_pct: r.pl_pct, real: 0, real_pct: null})),
+    ...cur(DATA.realized).map(r => ({code: r.code, name: r.name, status: '已出清', shares: r.shares, cost: r.buy_px, last: r.sell_px, value: null, weight: null, unreal: 0, unreal_pct: null, real: r.net, real_pct: r.pct}))
+  ];
+  $('cards').replaceChildren(...cards.map(r => {
+    const card = mkEl('div', 'card');
+    const head = mkEl('div', 'sc-head');
+    const nmEl = mkEl('div', 'sc-name', r.name); nmEl.append(mkEl('small', '', r.code));
+    head.append(nmEl, mkEl('span', 'pill ' + (r.status === '持有中' ? 'held' : ''), r.status));
+    const stats = mkEl('div', 'stats');
+    const held = r.status === '持有中';
+    stats.append(labeled('股數', valEl(r.shares, 'int')), labeled(held ? '買入均價' : '買進價', valEl(r.cost, 'px')), labeled(held ? '現價' : '賣出價', valEl(r.last, 'px')), labeled('市值', valEl(r.value, 'int')), labeled('占比', valEl(r.weight, 'w')));
+    const pl = mkEl('div', 'pl');
+    const blk = (label, v, p) => { const w = labeled(label, valEl(v, 'sint')); w.append(valEl(p, 'spct', 'sub')); return w; };
+    pl.append(blk('未實現損益', r.unreal, r.unreal_pct), blk('已實現損益', r.real, r.real_pct));
+    const n = notes.find(x => x.scope === r.code) || {};
+    card.append(head, stats, pl, noteBlock('操作紀錄', n.ops), noteBlock('行情看法', n.view));
+    return card;
+  }));
+}
+
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === id)));
+  document.querySelectorAll('.panel').forEach(p => { p.hidden = p.id !== 'panel-' + id; });
+  drawCharts();
+}
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => { showTab(t.dataset.tab); history.replaceState(null, '', '#' + t.dataset.tab); }));
+window.showAllPanels = () => { document.querySelectorAll('.panel').forEach(p => { p.hidden = false; }); drawCharts(); };
+window.addEventListener('beforeprint', window.showAllPanels);
+window.addEventListener('afterprint', () => showTab(['hist','view'].includes((location.hash || '#now').slice(1)) ? (location.hash || '#now').slice(1) : 'now'));
+window.addEventListener('resize', drawCharts);
+fillStatic();
+fillView();
+showTab(['hist','view'].includes((location.hash || '#now').slice(1)) ? (location.hash || '#now').slice(1) : 'now');
+</script>
+</body>
+</html>
