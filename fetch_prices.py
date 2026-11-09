@@ -6,7 +6,7 @@ import time
 import urllib.request
 
 START = dt.date(2026, 9, 1)          # 從這天起補抓歷史收盤價
-STOCKS = {"1303": "twse", "8045": "tpex", "8039": "tpex"}   # 上市 / 上櫃
+STOCKS = {"1303": "twse", "8045": "tpex", "8039": "tpex", "2308": "twse", "2383": "twse"}   # 上市 / 上櫃
 OUT = "data/prices.json"
 
 
